@@ -1,6 +1,5 @@
 package org.example.ViewsAndControllers;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
@@ -9,14 +8,13 @@ import javafx.scene.control.*;
 
 import org.example.SensorDataModel.DTOs.TemperaturesensorDTO;
 import org.example.SensorDataModel.DataGenerators.TemperaturSensorDataGenerator;
-import org.example.SensorDataModel.SensorObserver;
+
+import org.example.SensorDataModel.TempSensorObserver;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.*;
 
-public class ChartController implements SensorObserver {
+public class ChartController implements TempSensorObserver {
 
     // This class uses the Observer interface - it watches something...
     ScheduledExecutorService scheduledExecutorService;
@@ -50,7 +48,8 @@ TemperaturSensorDataGenerator temperaturSensorDataGenerator = new TemperaturSens
 
     @FXML
     private void populateChart(){
-        System.out.println("fuccgg DD:");
+
+     /*   System.out.println("fuccgg DD:");
 
         //lånt fra https://code.makery.ch/blog/javafx-dialogs-official/
         TextInputDialog dialog = new TextInputDialog("walter");
@@ -69,9 +68,15 @@ TemperaturSensorDataGenerator temperaturSensorDataGenerator = new TemperaturSens
 
 // The Java 8 way to get the response value (with lambda expression).
         result.ifPresent(name -> System.out.println("Your name: " + name));
+        */
 
-      //  new Thread(temperaturSensorDataGenerator).start();
-        //temperaturSensorDataGenerator.registerSensorObserver(this);
+
+        Thread a = new Thread(temperaturSensorDataGenerator);
+        a.start();
+        a.setDaemon(true);
+
+        temperaturSensorDataGenerator.registerSensorObserver(this);
+
 
 
     }

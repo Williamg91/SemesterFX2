@@ -37,15 +37,15 @@ public abstract class Sensorparent {
 
     protected double lowerlimit;
 
-    public double getSimulatedmax() {
-        return simulatedmax;
+    public double getsimulatedmaxHeartRate() {
+        return simulatedmaxHeartRate;
     }
 
-    public void setSimulatedmax(double simulatedmax) {
-        this.simulatedmax = simulatedmax;
+    public void setsimulatedmaxHeartRate(double simulatedmaxHeartRate) {
+        this.simulatedmaxHeartRate = simulatedmaxHeartRate;
     }
 
-    protected double simulatedmax,simulatedmin;
+    protected double simulatedmaxHeartRate,simulatedmin;
 
     public String getPortname() {
         return portname;
@@ -57,8 +57,8 @@ public abstract class Sensorparent {
 
     protected String portname;
 
-    public Sensorparent(double simulatedMax,double simulatedmin ){
-        this.simulatedmax=simulatedMax;
+    public Sensorparent(double simulatedmaxHeartRate,double simulatedmin ){
+        this.simulatedmaxHeartRate=simulatedmaxHeartRate;
         this.simulatedmin=simulatedmin;
 
 

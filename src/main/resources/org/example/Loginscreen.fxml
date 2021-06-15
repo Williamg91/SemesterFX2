@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+
+<Pane fx:controller="org.example.ViewsAndControllers.LogonController" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/15.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button layoutX="235.0" layoutY="337.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="89.0" text="Opret bruger" />
+      <Button id="loginknap" fx:id="loginknap" layoutX="265.0" layoutY="262.0" mnemonicParsing="false" onAction="#trykPaaKnap" text="Log ind" />
+      <TextField id="mailLogin"  fx:id = "Loginfelt" layoutX="192.0" layoutY="141.0" promptText="Indtast mail" />
+      <PasswordField id="passwordfeltLogin" fx:id="passwordfelt" layoutX="192.0" layoutY="174.0" promptText="Ønsket password" />
+   </children>
+</Pane>

@@ -4,6 +4,7 @@ package org.example;
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
+import org.example.SensorDataModel.EKGSensor;
 
 public class PortTester {
 
@@ -38,5 +39,10 @@ public class PortTester {
 
     public static void main(String[] args) {
 
+        EKGSensor ekg = new EKGSensor();
+        while(true){
+           ekg.getSensoroutput();
+
+        }
     }
 }

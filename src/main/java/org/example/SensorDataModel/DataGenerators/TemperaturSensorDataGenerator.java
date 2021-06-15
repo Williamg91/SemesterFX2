@@ -2,19 +2,20 @@ package org.example.SensorDataModel.DataGenerators;
 
 
 import org.example.SensorDataModel.DTOs.TemperaturesensorDTO;
-import org.example.SensorDataModel.SensorObservable;
-import org.example.SensorDataModel.SensorObserver;
+
+import org.example.SensorDataModel.TempSensorObservable;
+import org.example.SensorDataModel.TempSensorObserver;
 
 import java.util.ArrayList;
 
-public class TemperaturSensorDataGenerator implements SensorObservable {
+public class TemperaturSensorDataGenerator implements TempSensorObservable {
 
     //We made it implement the Observable so we can have more than one type of data, and others observe
     //the data being created.
 
 
 
-    private ArrayList<SensorObserver> sensorObservers = new ArrayList<>();
+    private ArrayList<TempSensorObserver> sensorObservers = new ArrayList<>();
 
 
     @Override
@@ -25,7 +26,7 @@ public class TemperaturSensorDataGenerator implements SensorObservable {
 
 
             if(sensorObservers!=null){
-                for( SensorObserver o: sensorObservers){
+                for( TempSensorObserver o: sensorObservers){
 
                     o.notify(temperaturesensorDTO);
                     //
@@ -44,7 +45,7 @@ public class TemperaturSensorDataGenerator implements SensorObservable {
     }
 
     @Override
-    public void registerSensorObserver(SensorObserver sensorObserver) {
+    public void registerSensorObserver(TempSensorObserver sensorObserver) {
         sensorObservers.add(sensorObserver);
 
     }
