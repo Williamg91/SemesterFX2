@@ -28,16 +28,23 @@ public class DBAccessTester {
 
         String cpr = "17-6-2021";
         dba.insertMeasurementsIntoMeasurementsTable(testArray,cpr);
-int[] dbtester = dba.getMeasurementsFromCPR(cpr);
+    int[] dbtester = dba.getMeasurementsFromCPR(cpr);
 
-if(dbtester!=null){
+    if(dbtester!=null){
+        String url_open ="https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url_open));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     for (int i =0;i<dbtester.length;i++){
         System.out.println("Fra DBtester"+dbtester[i]);
+
 
     }
 }
 
-        /*
+/*
       if(combo[1].equals(password)&& combo[0].equals(Mail) ){
 
           String url_open ="https://www.youtube.com/watch?v=dQw4w9WgXcQ";
