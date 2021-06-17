@@ -23,6 +23,21 @@ public class DBAccessTester {
         //kald metoden til at sætte ind i databasen
       String[] combo=  dba.getUserAndPassword(Mail,password);
       //kald metoden til at få et svar tilbage fra databasen
+        int[] testArray = {22,55,77,99,111,133,155,177};
+
+
+        String cpr = "17-6-2021";
+        dba.insertMeasurementsIntoMeasurementsTable(testArray,cpr);
+int[] dbtester = dba.getMeasurementsFromCPR(cpr);
+
+if(dbtester!=null){
+    for (int i =0;i<dbtester.length;i++){
+        System.out.println("Fra DBtester"+dbtester[i]);
+
+    }
+}
+
+        /*
       if(combo[1].equals(password)&& combo[0].equals(Mail) ){
 
           String url_open ="https://www.youtube.com/watch?v=dQw4w9WgXcQ";
@@ -33,6 +48,7 @@ public class DBAccessTester {
           }
           System.out.println(combo[0]+combo[1]+"er et match");
       }
+*/
 
 
     }

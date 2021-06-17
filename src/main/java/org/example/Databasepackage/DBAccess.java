@@ -41,6 +41,90 @@ private Statement statement;
 
     }
 
+    public void insertMeasurementsIntoMeasurementsTable(int[] datasomIfaarfraSensorKlassen,String CPR){
+        try{
+            //if no table:
+            String lavTabel ="CREATE TABLE if not exists `measurements` (\n" +
+                    "  `id` int NOT NULL AUTO_INCREMENT,\n" +
+                    "  `CPR` varchar(11) NOT NULL,\n" +
+                    "  `measurementvalue` int NOT NULL,\n" +
+                    "  `lortetid` timestamp NULL DEFAULT CURRENT_TIMESTAMP,\n" +
+                    "  PRIMARY KEY (`id`)\n" +
+                    ") ";
+
+            statement = conn.createStatement();
+            statement.execute(lavTabel);
+
+            String SQLInsert = "insert into measurements(measurementvalue,CPR) values (?,?);";
+            preparedStatement = conn.prepareStatement(SQLInsert);
+            //loop over the array or arrayList
+            for (int i=0;i<datasomIfaarfraSensorKlassen.length;i++){
+                preparedStatement.setInt(1,datasomIfaarfraSensorKlassen[i]);
+                preparedStatement.setString(2,CPR);
+                //alloker første plads i SQL Statementet - til at være det I'te element fra et Array eller ArrayList
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+            System.out.println("Data inserted, with "+datasomIfaarfraSensorKlassen.length+" values");
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+    }
+
+
+    public int[] getMeasurementsFromCPR(String CPR){
+        // Inefficient method - make an ArrayList of measurements instead...
+        int[] data =null; //Declare an array for later.
+        try{
+            String SqlSEARCH = "\n" +
+                    "select cpr,measurementvalue from measurements where cpr =" +
+                    " '%s'" +
+                    //formateret string - %s betyder at man kan bruge String.format(StringensNavn,indsætVærdiHer)
+                    //til at indsætte i en String, uden at bruge +""+
+                    ";";
+            statement = conn.createStatement();
+            String counter = "select count(*) from measurements;";
+            // statement.executeQuery(SqlSEARCH);
+            ResultSet rowcount = statement.executeQuery(counter);
+            int dataSampleSize=0;
+            if(rowcount!=null){
+                //if we get a count back...
+                rowcount.next();
+                dataSampleSize=rowcount.getInt(1);
+                System.out.println("Found samples:"+dataSampleSize);
+                data = new int[dataSampleSize];
+            }
+            //count rows - consider if there's a limit to how many seconds or samples you want presented.
+            ResultSet resultSet = statement.executeQuery(String.format(SqlSEARCH, CPR ));
+
+            if (resultSet != null)
+            { int index =0;
+
+                while(resultSet.next()){
+
+                    //loop over the results.
+
+                        data[index]= resultSet.getInt(2);
+                    index++;
+                }
+                //https://stackoverflow.com/questions/192078/how-do-i-get-the-size-of-a-java-sql-resultset/192104
+                 // moves cursor to the last row
+
+               // resultSet.first();
+
+            }
+
+
+
+
+
+        }catch(SQLException ex){
+            ex.printStackTrace();
+        }
+
+        return data; //mind of NullPointer =this indicates error in loops
+    }
+
     public String[] getUserAndPassword(String mail,String password){
         String[] data = new String[2];
         try{
