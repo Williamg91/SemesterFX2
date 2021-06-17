@@ -3,6 +3,7 @@ module org.example {
     requires javafx.fxml;
     requires com.fazecast.jSerialComm;
     requires java.sql;
+    requires java.desktop;
 
     opens org.example to javafx.fxml;
     exports org.example.ViewsAndControllers to javafx.fxml;

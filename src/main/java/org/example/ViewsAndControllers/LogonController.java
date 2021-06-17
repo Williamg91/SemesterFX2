@@ -37,7 +37,7 @@ public class LogonController {
         //
         String[] combo=  dba.getUserAndPassword(Mail, password);
 
-         dba.insertUser("Lærke","nice");
+       //  dba.insertUser("Lærke","nice");
 
 
         if(combo[1].equals(password)&& combo[0].equals(Mail) ){
