@@ -83,9 +83,14 @@ private Statement statement;
                     //til at indsætte i en String, uden at bruge +""+
                     ";";
             statement = conn.createStatement();
-            String counter = "select count(*) from measurements;";
+            String counter = "select count(*) from measurements where cpr =" +
+                    " '%s'" +
+                    //formateret string - %s betyder at man kan bruge String.format(StringensNavn,indsætVærdiHer)
+                    //til at indsætte i en String, uden at bruge +""+
+                    ";";
+
             // statement.executeQuery(SqlSEARCH);
-            ResultSet rowcount = statement.executeQuery(counter);
+            ResultSet rowcount = statement.executeQuery(String.format(counter, CPR));
             int dataSampleSize=0;
             if(rowcount!=null){
                 //if we get a count back...
@@ -95,10 +100,12 @@ private Statement statement;
                 data = new int[dataSampleSize];
             }
             //count rows - consider if there's a limit to how many seconds or samples you want presented.
-            ResultSet resultSet = statement.executeQuery(String.format(SqlSEARCH, CPR ));
 
+
+            ResultSet resultSet = statement.executeQuery(String.format(SqlSEARCH, CPR ));
+            int index =0;
             if (resultSet != null)
-            { int index =0;
+            {
 
                 while(resultSet.next()){
 
