@@ -29,6 +29,7 @@ private Statement statement;
                     ") ;";
             statement = conn.createStatement();
             statement.execute(lavTabel);
+
             String SQLInsert = "insert into Persons(mail,passwd) values( ? ,? );";
             preparedStatement = conn.prepareStatement(SQLInsert);
             preparedStatement.setString(1,mail);
@@ -42,6 +43,7 @@ private Statement statement;
     }
 
     public void insertMeasurementsIntoMeasurementsTable(int[] datasomIfaarfraSensorKlassen,String CPR){
+
         try{
             //if no table:
             String lavTabel ="CREATE TABLE if not exists `measurements` (\n" +
@@ -88,7 +90,6 @@ private Statement statement;
                     //formateret string - %s betyder at man kan bruge String.format(StringensNavn,indsætVærdiHer)
                     //til at indsætte i en String, uden at bruge +""+
                     ";";
-
             // statement.executeQuery(SqlSEARCH);
             ResultSet rowcount = statement.executeQuery(String.format(counter, CPR));
             int dataSampleSize=0;
@@ -100,35 +101,21 @@ private Statement statement;
                 data = new int[dataSampleSize];
             }
             //count rows - consider if there's a limit to how many seconds or samples you want presented.
-
-
             ResultSet resultSet = statement.executeQuery(String.format(SqlSEARCH, CPR ));
             int index =0;
             if (resultSet != null)
             {
-
                 while(resultSet.next()){
-
                     //loop over the results.
-
                         data[index]= resultSet.getInt(2);
                     index++;
                 }
                 //https://stackoverflow.com/questions/192078/how-do-i-get-the-size-of-a-java-sql-resultset/192104
-                 // moves cursor to the last row
-
-               // resultSet.first();
 
             }
-
-
-
-
-
         }catch(SQLException ex){
             ex.printStackTrace();
         }
-
         return data; //mind of NullPointer =this indicates error in loops
     }
 

@@ -1,15 +1,21 @@
 package org.example.SensorDataModel.DTOs;
-import jssc.*;
-import org.example.Observable;
+
+import jssc.SerialPort;
+import jssc.SerialPortException;
+import jssc.SerialPortList;
 
 import java.util.ArrayList;
 
-public class EKGSensorDTO implements Observable {
-    private  int simulatedmaxHeartRate,simulatedmin;
-    //Give this to a Datagenerator
-
+public class SensorMedFilter {
     private SerialPort serialPort;
-    public EKGSensorDTO(){
+
+    private String endBuffer="";
+    private String frontBuffer="";
+    private String[] inddeltOgFiltreretArray;
+    String input = "";
+    private ArrayList<Integer> data= new ArrayList<>();
+    public SensorMedFilter(SerialPort serialPort) {
+        this.serialPort = serialPort;
         String[] portNames= SerialPortList.getPortNames();
         for (String name : portNames){
             System.out.println(name);
@@ -30,39 +36,21 @@ public class EKGSensorDTO implements Observable {
         }
     }
 
-    private String endBuffer="";
-    private String frontBuffer="";
-    private String[] inddeltOgFiltreretArray;
-
-    private ArrayList<Integer> aSimpleMethodThatDoesntCloseThePortButReturnsOurData(){
-        ArrayList<Integer> data= new ArrayList<>();
-        String input = "";
-
+    public ArrayList<Integer> aSimpleMethodThatDoesntCloseThePortButReturnsOurData(){
         try {
             if (serialPort.getInputBufferBytesCount() > 0) {
                 input = serialPort.readString();
-
                 if(input!=null){
-
                     input=applyFilterToInput(input);
                 }
-
                 //and the end
-
                 String[] split = input.split(",");
-               //this is where it can get tricky - what happens in each case?
-
+                //this is where it can get tricky - what happens in each case? We need to work on the filtering first
                 for(String indholdISplitteren: split){
                     //For each element of the Split array - do something
-
-                    //Check for remainers
-
-                    //add the converted, filterede values
                     data.add(Integer.parseInt(indholdISplitteren));
+                    //add the converted, filterede values
                 }
-
-                //tilføj start og slut for hver af jeres målinger:
-
             } else {
                 Thread.sleep(5);
             }
@@ -76,7 +64,7 @@ public class EKGSensorDTO implements Observable {
     }
 
     private String applyFilterToInput(String input) {
-//This is private, because Other classes don't CARE about whether or not
+//This is private, because Other classes don't CARE about how the class works. they care for results
 
         int forsteForeKomstAfSkilleTegn=input.indexOf(",");
         int sidsteForekomstAfSkilleTegn = input.lastIndexOf(",");
@@ -104,74 +92,4 @@ public class EKGSensorDTO implements Observable {
         return input ;
     }
 
-/*
-
-This class is supposed to make 2 variants of measurements - a simulated ECG measurement, and 100s of simulated voltages
-each second.
- */
-    //we may need to create simulated values from this sensor - ranging from 0-2^12 -1 = 4095
-    //increasingly high generating values - or do we just need a simulation of actual measurements?
-
-
-
-
-
-    public EKGSensorDTO(int maxpuls,int minimumpuls){
-        this.simulatedmaxHeartRate = maxpuls;
-       this.simulatedmin =minimumpuls;
-    }
-
-    private double simulatedVoltage =1;
-    boolean ascending = true;
-    public double getIncreasingSimulatedVoltage(){
-
-//inserted
-        switch (simulatedMaxVoltage){
-            case 4095:
-                ascending=false;
-            case 0:
-                ascending=true;
-        }
-
-        if(simulatedVoltage<4095 &&ascending) {
-            simulatedVoltage++;
-            //increase if less
-        }
-        else if(simulatedVoltage==4095 && !ascending){
-    simulatedVoltage--;
-            }
-        //decrease
-
-
-
-
-        return simulatedVoltage;
-    }
-
-    public int getSimulatedMaxVoltage() {
-        return simulatedMaxVoltage;
-    }
-
-    public void setSimulatedMaxVoltage(int simulatedMaxVoltage) {
-        this.simulatedMaxVoltage = simulatedMaxVoltage;
-    }
-
-    int simulatedMaxVoltage = 4095;
-
-    public int getSimulatedMinVoltage() {
-        return simulatedMinVoltage;
-    }
-
-    public void setSimulatedMinVoltage(int simulatedMinVoltage) {
-        this.simulatedMinVoltage = simulatedMinVoltage;
-    }
-
-    int simulatedMinVoltage = 0;
-
-
-
-    @Override
-    public void notify(Object listener) {
-
-    }
 }
